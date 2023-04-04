@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="MotorVogn.js"></script>
+    <script src="Validering.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Motorvogn register</h2>
+          <form class="form">
+              <div class="form-group">
+                  <label for="personnr">Person nummer</label>
+                  <input type="text" id="personnr" onchange="validerPersonnr(this.value)"/>
+                  <div id="feilPersonnr" style="color: red"></div>
+              </div>
+              <div class="form-group">
+                  <label for="navn">Navn</label>
+                  <input type="text" id="navn" onchange="validerNavn(this.value)"/>
+                  <div id="feilNavn" style="color: red"></div>
+              </div>
+              <div class="form-group">
+                  <label for="adresse">Adresse</label>
+                  <input type="text" id="adresse" onchange="validerAdresse(this.value)"/>
+                  <div id="feilAdress" style="color: red"></div>
+              </div>
+              <div class="form-group">
+                  <label for="kjennetegn">kjennetegn</label>
+                  <input type="text" id="kjennetegn" onchange="validerKjennetegn(this.value)"/>
+                  <div id="feilKjennetegn" style=" color: red"></div>
+              </div>
+              <div class="form-group">
+                  <label for="merke">Merke</label>
+                  <select id="merke">
+              </select>
+                  <div id="feilMerke" style="color:red"></div>
+                  </div>
+              <div class="form-group">
+                  <label for="type">Type</label>
+                  <select id="type"></select>
+                  <div id="feilType" style="color: red"></div>
+              </div>
+              <div class="form-group">
+                  <button id="register" class="btn btn-primary">Register</button>
+              </div>
+          </form>
+        </div>
+        <div class="col-md-8">
+            <h3>Alle billene</h3>
+            <table class="table">
+                <div id="list"></div>
+            </table>
+
+            <button onclick="slettAlleKunde()" class="btn btn-danger">Slett Alle</button>
+            <div id="feil" style="color: red"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
