@@ -50,12 +50,7 @@ $(() => {
 hentBiler = () => {
     $.get("/hentBilMerke", function (bilmerke) {
         formaterMerke(bilmerke);
-        $.get("/hentBilType?bilMerke=" + bilmerke[0], function (biltype) {
-            formaterTyper(biltype);
-        })
     })
-
-
 }
 
 formaterMerke = (bilMerker) => {
@@ -69,6 +64,7 @@ formaterMerke = (bilMerker) => {
 
 formaterTyper = (bilType) => {
     let typer = "";
+    typer+="<option value='feil'>"+'Valg type'+"</option>"
     for (const type of bilType) {
         typer += "<option value='" + type + "'>" + type + "</option>"
     }
