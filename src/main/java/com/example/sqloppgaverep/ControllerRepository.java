@@ -33,14 +33,26 @@ public class ControllerRepository {
 
     public List<Kunde> hentAlleKunder() {
         String sql = "SELECT * FROM Kunde";
-        try{List<Kunde> alleKunder = db.query(sql, new BeanPropertyRowMapper(Kunde.class));
-            return alleKunder;}
-        catch(Exception e){
-            logger.error("Feil i hentAlleKunder"+e);
+        try {
+            List<Kunde> alleKunder = db.query(sql, new BeanPropertyRowMapper(Kunde.class));
+            return alleKunder;
+        } catch (Exception e) {
+            logger.error("Feil i hentAlleKunder" + e);
             return null;
         }
 
 
+    }
+
+    public List<Bil> hentBiler() {
+        String sql = "SELECT bilMerke, bilType FROM Bil";
+        try {
+            List<Bil> biler = db.query(sql, new BeanPropertyRowMapper(Bil.class));
+            return biler;
+        } catch (Exception e) {
+            logger.error("Feil i hentBiler", e);
+            return null;
+        }
     }
 
     public List<String> hentBilMerke() {
@@ -70,12 +82,11 @@ public class ControllerRepository {
 
     public boolean slettAlleKunder() {
         String sql = "DELETE FROM Kunde";
-        try{
+        try {
             db.update(sql);
             return true;
-        }
-        catch (Exception e){
-            logger.error("feil i slettAlleKunder"+e);
+        } catch (Exception e) {
+            logger.error("feil i slettAlleKunder" + e);
             return false;
 
         }
@@ -85,12 +96,11 @@ public class ControllerRepository {
     public boolean slettEnKunde(int id) {
         String sql = "DELETE FROM Kunde WHERE id=?";
 
-        try{
+        try {
             db.update(sql, id);
             return true;
-        }
-        catch (Exception e){
-            logger.error("feil i slettEnKunde"+e);
+        } catch (Exception e) {
+            logger.error("feil i slettEnKunde" + e);
             return false;
         }
 
@@ -99,25 +109,23 @@ public class ControllerRepository {
     public Kunde hentEnKunde(int id) {
         String sql = "SELECT * FROM Kunde WHERE id=?";
 
-        try{
+        try {
             Kunde enKunde = db.queryForObject(sql, new Object[]{id}, new BeanPropertyRowMapper<Kunde>(Kunde.class));
             return enKunde;
-        }
-        catch (Exception e){
-            logger.error("feil i hentEnKunde"+e);
+        } catch (Exception e) {
+            logger.error("feil i hentEnKunde" + e);
             return null;
         }
     }
 
     public boolean endreEnKunde(Kunde enKunde) {
         String sql = "UPDATE Kunde SET personnr=?, navn=?, adresse=?, kjennetegn=?, bilMerke=?, bilType=? WHERE id=?";
-        try{
+        try {
             db.update(sql, enKunde.getPersonnr(), enKunde.getNavn(),
                     enKunde.getAdresse(), enKunde.getKjennetegn(),
                     enKunde.getBilMerke(), enKunde.getBilType(), enKunde.getId());
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.error("feil i endreEnKunde", e);
             return false;
         }
