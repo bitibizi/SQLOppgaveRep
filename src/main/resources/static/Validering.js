@@ -58,10 +58,10 @@ validerMerke=(merke)=>{
     const feil="feil"
     if(merke===feil){
         $("#feilMerke").html("Må velge Merke")
-        return true
+        return false
     }else{
         $("#feilMerke").html("");
-        return false
+        return true
     }
 }
 
@@ -69,9 +69,9 @@ validerType=(type)=>{
     const feil="feil"
     if(type===feil){
         $("#feilType").html("Må velge Type")
-        return true
+        return false
     }else{
         $("#feilType").html("");
-        return false;
+        return true;
     }
 }

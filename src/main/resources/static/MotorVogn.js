@@ -32,7 +32,9 @@ $(() => {
 
       $.post("/lagreKunde", Kunde, function () {
           hentKunder();
-      }).fail(function(feil){
+
+      })
+          .fail(function(feil){
           const json=$.parseJSON(feil.responseText)
           $("#feil").html(json.message);
       })
@@ -55,6 +57,7 @@ hentBiler = () => {
     $.get("/hentBilMerke", function (bilmerke) {
         formaterMerke(bilmerke);
     })
+
 }
 
 formaterMerke = (bilMerker) => {
