@@ -9,8 +9,10 @@ $(() => {
         const navnOk = validerNavn($("#navn").val());
         const adressOk = validerAdresse($("#adresse").val());
         const kjennetegnOk = validerKjennetegn($("#kjennetegn").val());
+        const merkeOk=validerMerke($("#merke").val());
+        const typeOk=validerType($("#type").val());
 
-        if (personnrOk && navnOk && adressOk && kjennetegnOk) {
+        if (personnrOk && navnOk && adressOk && kjennetegnOk && merkeOk && typeOk) {
             lagreKunder();
         }
 
@@ -40,7 +42,9 @@ $(() => {
         let valgtmerke = $("#merke").val()
         $.get("/hentBilType?bilMerke=" + valgtmerke, function (bilType) {
             formaterTyper(bilType);
-        }).fail(function(feil){
+        })
+
+            .fail(function(feil){
             const json=$.parseJSON(feil.responseText)
             $("#feil").html(json.message);
         })
@@ -54,7 +58,7 @@ hentBiler = () => {
 }
 
 formaterMerke = (bilMerker) => {
-    let merker = "<option value='feil'>"+'Valg merke'+"</option>";
+    let merker = "<option value='feil'>"+'Valg Merke'+"</option>";
     for (const merke of bilMerker) {
         merker += "<option value='" + merke + "'>" + merke + "</option>"
     }

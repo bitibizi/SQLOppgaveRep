@@ -53,3 +53,25 @@ validerKjennetegn=(kjennetegn)=>{
     }
 
 }
+
+validerMerke=(merke)=>{
+    const feil="feil"
+    if(merke===feil){
+        $("#feilMerke").html("Må velge Merke")
+        return true
+    }else{
+        $("#feilMerke").html("");
+        return false
+    }
+}
+
+validerType=(type)=>{
+    const feil="feil"
+    if(type===feil){
+        $("#feilType").html("Må velge Type")
+        return true
+    }else{
+        $("#feilType").html("");
+        return false;
+    }
+}
