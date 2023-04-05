@@ -70,7 +70,7 @@ endreKunde = () => {
     }
 
     $.post("/endreEnKunde", Kunde, function () {
-        window.location.href = "/MotorVogn.html"
+        window.location.href = "List.html"
     })
 
         .fail(function(feil){
