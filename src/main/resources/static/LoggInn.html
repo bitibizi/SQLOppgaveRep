@@ -9,14 +9,27 @@
 
 </head>
 <body>
-<h2>Logg inn</h2>
 
-<label for="navn">Navn: </label>
-<input type="text" id="navn"/>
+<div class="container">
+    <div class="row">
+        <h2>Logg inn</h2>
+        <form class="form-group">
+            <div class="form-group">
+                <label for="brukerNavn">BrukerNavn: </label>
+                <input type="text" id="brukerNavn"/>
+            </div>
 
-<label for="password">Password: </label>
-<input type="text" id="password"/>
+            <div class="form-group">
+                <label for="password">Password: </label>
+                <input type="text" id="password"/>
+            </div>
 
-<button Onclick="loggInn()" class="btn btn-primary">Logg Inn</button>
+            <div class="form-group">
+                <button Onclick="loggInn()" class="btn btn-primary">Logg Inn</button>
+            </div>
+
+        </form>
+    </div>
+</div>
 </body>
 </html>

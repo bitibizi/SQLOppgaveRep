@@ -7,3 +7,6 @@ INSERT INTO Bil(bilMerke, bilType) VALUES('NISSAN','N3');
 INSERT INTO Bil(bilMerke, bilType) VALUES('KIA','K9');
 INSERT INTO Bil(bilMerke, bilType) VALUES('KIA','K10');
 INSERT INTO Bil(bilMerke, bilType) VALUES('KIA','K11');
+
+INSERT INTO Admin(brukernavn, password) VALUES ('PER HANSEN','123456789');
+INSERT INTO Admin(brukernavn, password) VALUES ('PADDINGTON','987654321');

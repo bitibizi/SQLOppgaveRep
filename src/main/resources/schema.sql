@@ -13,3 +13,8 @@ CREATE TABLE Bil(
     bilMerke VARCHAR(225) NOT NULL,
     bilType VARCHAR(225) NOT NULL
 );
+
+CREATE TABLE Admin(
+  brukernavn VARCHAR(225) NOT NULL,
+  password VARCHAR(225) NOT NULL
+);
