@@ -33,10 +33,7 @@ $(() => {
           window.location.href='List.html'
 
       })
-          .fail(function(feil){
-          const json=$.parseJSON(feil.responseText)
-          $("#feil").html(json.message);
-      })
+
   }
 
     $("#merke").change(() => {

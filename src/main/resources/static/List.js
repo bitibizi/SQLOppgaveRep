@@ -1,3 +1,7 @@
+$(()=>{
+    hentKunder();
+})
+
 hentKunder=()=>{
     $.get("/hentKunder", function(kunder){
         formaterKunder(kunder);
@@ -28,7 +32,7 @@ formaterKunder = (kunder) => {
 slettEnKunde=(id)=>{
     const url=("/slettEnKunde?id="+id);
     $.get(url, function(){
-        window.location.href="/MotorVogn.html"
+        window.location.href="/List.html"
     })
 
 }
