@@ -6,10 +6,16 @@ hentKunder=()=>{
     $.get("/hentKunder", function(kunder){
         formaterKunder(kunder);
     })
+        .fail(function(status){
+            if(status.status=404){
+                $("#feil").html("Må logge inn for å vise Kundene!")
+            }
+        })
         .fail(function(feil){
             const json=$.parseJSON(feil.responseText)
             $("#feil").html(json.message);
         })
+
 }
 
 formaterKunder = (kunder) => {
@@ -42,4 +48,11 @@ slettAlleKunde=()=>{
         hentKunder();
     })
 
+}
+
+loggUt=()=>{
+    const url="/loggUt"
+    $.get(url, function(){
+        window.location.href='LoggInn.html'
+    })
 }

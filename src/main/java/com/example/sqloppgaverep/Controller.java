@@ -1,6 +1,7 @@
 package com.example.sqloppgaverep;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,23 @@ public class Controller {
     @Autowired
     private ControllerRepository rep;
 
+    @Autowired
+    private HttpSession session;
+
     private Logger logger = LoggerFactory.getLogger(Controller.class);
+
+    // TODO: Send as POST request
+    @GetMapping("/loggInn")
+    public boolean loggInn(Admin bruker){
+
+        if(rep.sjekkBrukernavnOgPassword(bruker)){
+            session.setAttribute("innLogget", bruker);
+            return true;
+        }
+        return false;
+    }
+
+
 
     private boolean validerKunde(Kunde kunde) {
         String regePersonnr = "[0-9\\-]{11}";
@@ -45,8 +62,11 @@ public class Controller {
 
     @PostMapping("/lagreKunde")
     public void lagreKunde(Kunde innKunde, HttpServletResponse response) throws IOException {
-        if (!validerKunde(innKunde)) {
-            response.sendError(HttpStatus.NOT_ACCEPTABLE.value(), "feil input");
+        if(session.getAttribute("innLogget") == null){
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Du er ikke logget inn");
+        }
+        else if (!validerKunde(innKunde)) {
+            response.sendError(HttpStatus.BAD_REQUEST.value(), "feil input");
         } else {
             if (!rep.lagreKunde(innKunde)) {
                 response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB-prøv igjen senere");
@@ -58,7 +78,8 @@ public class Controller {
 
     @GetMapping("/hentKunder")
     public List<Kunde> hentAlleKunder(HttpServletResponse response) throws IOException {
-        List<Kunde> alleKunder = rep.hentAlleKunder();
+        List<Kunde> alleKunder =new ArrayList<>();
+        alleKunder=rep.hentAlleKunder();
         if (alleKunder == null) {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB - prøv igjen senere");
         }
@@ -116,6 +137,11 @@ public class Controller {
         if (!rep.endreEnKunde(enKunde)) {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB");
         }
+    }
+
+    @GetMapping("/loggUt")
+    public void loggUt(){
+        session.removeAttribute("innLogget");
     }
 
 }

@@ -133,5 +133,20 @@ public class ControllerRepository {
 
     }
 
+    public boolean sjekkBrukernavnOgPassword(Admin bruker){
+        Object [] param= new Object[]{bruker.getBrukernavn(), bruker.getPassword()};
+        String sql="SELECT COUNT(*) FROM Admin WHERE brukernavn=? AND password=?";
+        try{
+            int antall=db.queryForObject(sql,param,Integer.class);
+            if(antall>0){
+                return true;
+            }
+            return false;
+        }catch(Exception e){
+            logger.error("Feil i sjekkNavn og password :", e);
+            return false;
+        }
+    }
+
 
 }
