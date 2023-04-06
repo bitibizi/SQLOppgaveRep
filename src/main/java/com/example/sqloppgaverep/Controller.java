@@ -24,7 +24,7 @@ public class Controller {
     private Logger logger = LoggerFactory.getLogger(Controller.class);
 
     // TODO: Send as POST request
-    @GetMapping("/loggInn")
+    @PostMapping("/loggInn")
     public boolean loggInn(Admin bruker){
 
         if(rep.sjekkBrukernavnOgPassword(bruker)){
@@ -34,6 +34,12 @@ public class Controller {
         return false;
     }
 
+    @GetMapping("/erLoggetInn")
+    public void erLoggetInn(HttpServletResponse response)throws IOException{
+        if(session.getAttribute("innLogget") == null){
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Du er ikke logget inn");
+        }
+    }
 
 
     private boolean validerKunde(Kunde kunde) {
@@ -109,7 +115,10 @@ public class Controller {
 
     @GetMapping("/slettAlleKunder")
     public void slettAlleKunder(HttpServletResponse response) throws IOException {
-        if (!rep.slettAlleKunder()) {
+        if(session.getAttribute("innLogget")==null){
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), " du må logge inn først");
+        }
+       else if (!rep.slettAlleKunder()) {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB");
         }
 
@@ -117,7 +126,10 @@ public class Controller {
 
     @GetMapping("/slettEnKunde")
     public void slettEnKunde(int id, HttpServletResponse response) throws IOException {
-        if (!rep.slettEnKunde(id)) {
+        if(session.getAttribute("innLogget")==null){
+            response.sendError(HttpStatus.UNAUTHORIZED.value(),"Du må logge inn først");
+        }
+        else if (!rep.slettEnKunde(id)) {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB");
         }
     }
@@ -134,13 +146,19 @@ public class Controller {
 
     @PostMapping("/endreEnKunde")
     public void endreEnKunde(Kunde enKunde, HttpServletResponse response) throws IOException {
-        if (!rep.endreEnKunde(enKunde)) {
+        if(session.getAttribute("innLogget")==null){
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Du må logge inn");
+        }
+        else if (!rep.endreEnKunde(enKunde)) {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Feil i DB");
         }
     }
 
     @GetMapping("/loggUt")
-    public void loggUt(){
+    public void loggUt(HttpServletResponse response)throws IOException{
+        if(session.getAttribute("innLogget")==null){
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "Du kan ikke logge ut fordi du er ikke logget inn.");
+        }
         session.removeAttribute("innLogget");
     }
 

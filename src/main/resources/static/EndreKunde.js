@@ -73,6 +73,13 @@ endreKunde = () => {
         window.location.href = "List.html"
     })
 
+        .fail(function(status){
+            const json=$.parseJSON(status.responseText)
+            if(status.status = 401){
+                $("#feil").html(json.message)
+            }
+        })
+
         .fail(function(feil){
             const json=$.parseJSON(feil.responseText)
             $("#feil").html(json.message);

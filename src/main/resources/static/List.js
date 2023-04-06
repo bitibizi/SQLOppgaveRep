@@ -6,11 +6,7 @@ hentKunder=()=>{
     $.get("/hentKunder", function(kunder){
         formaterKunder(kunder);
     })
-        .fail(function(status){
-            if(status.status=404){
-                $("#feil").html("Må logge inn for å vise Kundene!")
-            }
-        })
+
         .fail(function(feil){
             const json=$.parseJSON(feil.responseText)
             $("#feil").html(json.message);
@@ -41,12 +37,26 @@ slettEnKunde=(id)=>{
         window.location.href="/List.html"
     })
 
+        .fail(function(status){
+            const json=$.parseJSON(status.responseText)
+            if(status.status = 401){
+                $("#feil").html(json.message)
+            }
+        })
+
 }
 
 slettAlleKunde=()=>{
     $.get("/slettAlleKunder", function(){
         hentKunder();
     })
+
+        .fail(function(status){
+            const json=$.parseJSON(status.responseText)
+            if(status.status = 401){
+                $("#feil").html(json.message)
+            }
+        })
 
 }
 
@@ -55,4 +65,26 @@ loggUt=()=>{
     $.get(url, function(){
         window.location.href='LoggInn.html'
     })
+
+        .fail(function(status){
+            const json=$.parseJSON(status.responseText)
+            if(status.status = 401){
+                $("#feil").html(json.message)
+            }
+        })
 }
+
+registerNy=()=>{
+    const url="/erLoggetInn"
+    $.get(url, function(){
+        window.location.href='MotorVogn.html'
+
+    })
+        .fail(function(status){
+            const json=$.parseJSON(status.responseText)
+            if(status.status = 401){
+                $("#feil").html(json.message)
+            }
+        })
+}
+

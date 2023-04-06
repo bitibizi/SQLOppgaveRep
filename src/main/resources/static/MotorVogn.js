@@ -1,6 +1,8 @@
 $(() => {
     hentBiler();
 
+
+
     $("#register").click(event=>{
         event.preventDefault()
 
@@ -14,6 +16,7 @@ $(() => {
         if (personnrOk && navnOk && adressOk && kjennetegnOk && merkeOk && typeOk) {
             lagreKunder();
         }
+
 
 
     })
@@ -33,6 +36,15 @@ $(() => {
           window.location.href='List.html'
 
       })
+
+          .fail(function(status){
+              const json=$.parseJSON(status.responseText)
+              if(status.status = 401){
+                  $("#feil").html(json.message)
+              }
+          })
+
+
 
   }
 
