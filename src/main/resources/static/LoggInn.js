@@ -19,4 +19,17 @@ $(() => {
             })
 
     })
+    $("#krypt").click(event=>{
+        event.preventDefault()
+        const bruker = {
+            brukernavn: $("#brukerNavn").val(),
+            password: $("#password").val()
+        }
+
+        $.post("/krypt", bruker, function(){
+            window.location.href='LoggInn.html';
+        })
+
+    })
 })
+

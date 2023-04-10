@@ -66,6 +66,14 @@ public class Controller {
 
     }
 
+    @PostMapping("/krypt")
+    public void krypterePassword(HttpServletResponse response)throws IOException{
+        rep.kryptereAdmin();
+
+    }
+
+
+
     @PostMapping("/lagreKunde")
     public void lagreKunde(Kunde innKunde, HttpServletResponse response) throws IOException {
         if(session.getAttribute("innLogget") == null){

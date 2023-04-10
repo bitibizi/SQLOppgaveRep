@@ -1,11 +1,15 @@
 package com.example.sqloppgaverep;
 
+import org.aspectj.apache.bcel.generic.ObjectType;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -16,6 +20,32 @@ public class ControllerRepository {
     private JdbcTemplate db;
 
     private Logger logger = LoggerFactory.getLogger(ControllerRepository.class);
+
+    private String kryptertPassword(String password) {
+        String cryptPassword = BCrypt.hashpw(password, BCrypt.gensalt(15));
+        return cryptPassword;
+
+    }
+
+    public void kryptereAdmin() {
+        // list get all admins
+        // for each admin, hash password and update the database
+        String sql1 = "SELECT * FROM Admin";
+        String sql2 = "UPDATE Admin SET password=? WHERE brukernavn=?";
+        List<Admin> admins = db.query(sql1, new BeanPropertyRowMapper(Admin.class));
+        for (Admin admin : admins) {
+            String hash = kryptertPassword(admin.getPassword());
+            db.update(sql2, hash, admin.getBrukernavn());
+        }
+
+
+    }
+
+
+    private boolean sjekkPassword(String password, String hashPassword) {
+        boolean ok = BCrypt.checkpw(password, hashPassword);
+        return ok;
+    }
 
     public boolean lagreKunde(Kunde innKunde) {
         String sql = "INSERT INTO Kunde(personnr, navn, adresse, kjennetegn, bilMerke, bilType) VALUES(?,?,?,?,?,?)";
@@ -133,20 +163,17 @@ public class ControllerRepository {
 
     }
 
-    public boolean sjekkBrukernavnOgPassword(Admin bruker){
-        Object [] param= new Object[]{bruker.getBrukernavn(), bruker.getPassword()};
-        String sql="SELECT COUNT(*) FROM Admin WHERE brukernavn=? AND password=?";
-        try{
-            int antall=db.queryForObject(sql,param,Integer.class);
-            if(antall>0){
-                return true;
-            }
-            return false;
-        }catch(Exception e){
+    public boolean sjekkBrukernavnOgPassword(Admin bruker) {
+        String sql = "SELECT * FROM Admin WHERE brukernavn=?";
+        try {
+            Admin dbBruker = db.queryForObject(sql, BeanPropertyRowMapper.newInstance(Admin.class), bruker.getBrukernavn());
+            String hash = dbBruker.getPassword();
+            boolean ok = sjekkPassword(bruker.getPassword(), hash);
+            return ok;
+        } catch (Exception e) {
             logger.error("Feil i sjekkNavn og password :", e);
             return false;
         }
     }
-
 
 }
